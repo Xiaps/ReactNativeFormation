@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, StyleSheet, TouchableHighlight} from 'react-native';
 
 const Home: React.FC<{
   truc: string;
@@ -8,12 +8,26 @@ const Home: React.FC<{
 
   //à chaque raffraichissement de composant
   useEffect(() => {
-    console.log('coucou');
+    console.log('Init du comp');
+    return () => {
+      console.log('destroy');
+    };
   }, []);
 
+  if (counter > 15) {
+    throw new Error('oups. Counter is too big.');
+  }
+
   return (
-    <View>
-      <Text>Home works with {truc}</Text>
+    <View style={styles.container}>
+      <TouchableHighlight
+        activeOpacity={0.6}
+        underlayColor="#DDDDDD"
+        onPress={() => {
+          console.log('you clicked here');
+        }}>
+        <Text>Home works with {truc}</Text>
+      </TouchableHighlight>
       {children}
       <Text>Counter = {counter}</Text>
       <Button
@@ -42,5 +56,13 @@ const Toto: React.FC<{
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    justifyContent: 'center',
+    padding: 20,
+  },
+});
 
 export default Home;
