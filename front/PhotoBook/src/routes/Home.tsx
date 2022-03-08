@@ -1,18 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TouchableHighlight,
-  Image,
-} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, {useEffect} from 'react';
+import {StyleSheet} from 'react-native';
+import {ScreenProps} from '../navigation';
+import Legal from './Legal';
+import Settings from './Settings';
+import Wall from './Wall';
 
-const Home: React.FC<{
-  truc: string;
-}> = ({truc, children}) => {
-  const [counter, setCounter] = useState(0);
-
+const Home = () => {
   //à chaque raffraichissement de composant
   useEffect(() => {
     console.log('Init du comp');
@@ -21,49 +15,14 @@ const Home: React.FC<{
     };
   }, []);
 
-  if (counter > 15) {
-    throw new Error('oups. Counter is too big.');
-  }
+  const Tab = createBottomTabNavigator();
 
   return (
-    <View style={styles.container}>
-      <TouchableHighlight
-        activeOpacity={0.6}
-        underlayColor="#DDDDDD"
-        onPress={() => {
-          console.log('you clicked here');
-        }}>
-        <Text>Home works with {truc}</Text>
-      </TouchableHighlight>
-      {children}
-      <Text>Counter = {counter}</Text>
-      <Image
-        style={styles.image}
-        source={require('../../assets/logo.png')}></Image>
-      <Button
-        title="Incremente"
-        onPress={() => {
-          setCounter(counter + 1);
-        }}></Button>
-      <Toto
-        counter={counter}
-        decrement={() => {
-          setCounter(counter - 1);
-        }}
-      />
-    </View>
-  );
-};
-
-const Toto: React.FC<{
-  counter: number;
-  decrement: () => void;
-}> = ({counter, decrement}) => {
-  return (
-    <>
-      <Text>coucou toto {counter}</Text>
-      <Button title="decrement" onPress={decrement} />
-    </>
+    <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="Wall" component={Wall} />
+      <Tab.Screen name="Legal" component={Legal} />
+      <Tab.Screen name="Settings" component={Settings} />
+    </Tab.Navigator>
   );
 };
 
@@ -72,11 +31,18 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#19B5FE',
+    alignItems: 'center',
   },
   image: {
     height: 50,
     width: 50,
     resizeMode: 'contain',
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+    padding: 10,
   },
 });
 
