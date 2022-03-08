@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, StyleSheet, TouchableHighlight} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+} from 'react-native';
 
 const Home: React.FC<{
   truc: string;
@@ -30,6 +37,9 @@ const Home: React.FC<{
       </TouchableHighlight>
       {children}
       <Text>Counter = {counter}</Text>
+      <Image
+        style={styles.image}
+        source={require('../../assets/logo.png')}></Image>
       <Button
         title="Incremente"
         onPress={() => {
@@ -62,6 +72,11 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     padding: 20,
+  },
+  image: {
+    height: 50,
+    width: 50,
+    resizeMode: 'contain',
   },
 });
 
