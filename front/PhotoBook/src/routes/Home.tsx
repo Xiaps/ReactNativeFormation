@@ -15,7 +15,25 @@ const Home: React.FC<{
         onPress={() => {
           setCounter(counter + 1);
         }}></Button>
+      <Toto
+        counter={counter}
+        decrement={() => {
+          setCounter(counter - 1);
+        }}
+      />
     </View>
+  );
+};
+
+const Toto: React.FC<{
+  counter: number;
+  decrement: () => void;
+}> = ({counter, decrement}) => {
+  return (
+    <>
+      <Text>coucou toto {counter}</Text>
+      <Button title="decrement" onPress={decrement} />
+    </>
   );
 };
 
