@@ -1,10 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 
 const Home: React.FC<{
   truc: string;
 }> = ({truc, children}) => {
   const [counter, setCounter] = useState(0);
+
+  //à chaque raffraichissement de composant
+  useEffect(() => {
+    console.log('coucou');
+  }, []);
+
   return (
     <View>
       <Text>Home works with {truc}</Text>
