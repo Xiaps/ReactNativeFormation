@@ -1,20 +1,31 @@
+import {is} from 'immer/dist/internal';
 import React, {useState} from 'react';
 import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {api} from '../api';
-import {useAppSelector} from '../redux/hooks';
-import {Article} from '../redux/slices/articles.slice';
+import {useAppDispatch, useAppSelector} from '../redux/hooks';
+import {
+  addNewArticle,
+  Article,
+  fetchAllArticles,
+} from '../redux/slices/articles.slice';
 import {selectAuthentication} from '../redux/slices/authentication.slice';
 
 const NewArticle = () => {
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async () => {
+    setIsLoading(true);
     try {
       const article: Article = {
         content: text,
         images: [] as string[],
       } as Article;
-      const response = await api.addNewArticle(article);
-      console.log('response : ' + response);
+      setText('');
+      await api.addNewArticle(article);
+      setIsLoading(false);
+      dispatch(fetchAllArticles());
     } catch (err) {
       console.log('erreur : ' + err);
     }
@@ -34,7 +45,7 @@ const NewArticle = () => {
         placeholder={`Hello ${authentication.user?.displayName}, what's on your mind?`}
         placeholderTextColor="#000"
       />
-      <Button title="Post" onPress={onSubmit} />
+      <Button title="Post" onPress={onSubmit} loading={isLoading} />
     </View>
   );
 };
