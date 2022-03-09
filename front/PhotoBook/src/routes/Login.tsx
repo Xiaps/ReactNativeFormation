@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Controller, useForm} from 'react-hook-form';
+import {StyleSheet, Text, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import {api} from '../api';
+import {Credentials} from '../interfaces/Credentials';
 import {ScreenProps} from '../navigation';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {
   connect,
   selectAuthentication,
 } from '../redux/slices/authentication.slice';
-import {useForm, Controller} from 'react-hook-form';
-import {Credentials} from '../interfaces/Credentials';
 
 const Login = ({navigation}: ScreenProps<'Login'>) => {
   const authentication = useAppSelector(selectAuthentication);
@@ -23,7 +23,7 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      email: 'toto@toto.com',
+      email: 'jlg@jlg.com',
       password: 'test',
     } as Credentials,
   });
@@ -62,7 +62,9 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.appName}>PhotoBook</Text>
+      <Text style={styles.signIn}>Sign in :</Text>
       <Controller
         control={control}
         rules={{
@@ -113,6 +115,7 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
         title="Connect"
         onPress={handleSubmit(onSubmit)}
         loading={isLoading}
+        buttonStyle={styles.button}
       />
       {errorMessage !== '' && <Text>Error : {errorMessage}</Text>}
     </View>
@@ -120,7 +123,28 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
 };
 
 const styles = StyleSheet.create({
-  input: {},
+  input: {color: 'white', backgroundColor: '#C0C0C050'},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 40,
+    alignItems: 'center',
+    backgroundColor: '#19B5FE',
+  },
+  appName: {
+    fontSize: 50,
+    marginBottom: 150,
+    color: 'white',
+  },
+  button: {
+    marginTop: 30,
+  },
+  signIn: {
+    color: 'white',
+    fontSize: 20,
+    marginBottom: 30,
+    textDecorationLine: 'underline',
+  },
 });
 
 export default Login;
