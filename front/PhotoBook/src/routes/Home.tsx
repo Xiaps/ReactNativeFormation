@@ -3,18 +3,22 @@ import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {ScreenProps} from '../navigation';
+import {useAppSelector} from '../redux/hooks';
+import {selectAuthentication} from '../redux/slices/authentication.slice';
 import Legal from './Legal';
 import Settings from './Settings';
 import Wall from './Wall';
 
-const Home = () => {
+const Home = ({navigation}: ScreenProps<'Home'>) => {
   //à chaque raffraichissement de composant
+
+  const authentification = useAppSelector(selectAuthentication);
+
   useEffect(() => {
-    console.log('Init du comp');
-    return () => {
-      console.log('destroy');
-    };
-  }, []);
+    if (authentification.user === undefined) {
+      navigation.navigate('Login');
+    }
+  }, [navigation, authentification]);
 
   const Tab = createBottomTabNavigator();
 

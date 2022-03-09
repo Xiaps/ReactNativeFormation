@@ -8,47 +8,61 @@
  * @format
  */
 
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  useColorScheme
+  useColorScheme,
 } from 'react-native';
-import { ThemeProvider } from 'react-native-elements';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { Stack } from './src/navigation';
+import {ThemeProvider} from 'react-native-elements';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Provider, useSelector} from 'react-redux';
+import {Stack} from './src/navigation';
+import {useAppSelector} from './src/redux/hooks';
+import {selectAuthentication} from './src/redux/slices/authentication.slice';
+import {store} from './src/redux/store';
 import Home from './src/routes/Home';
 import Login from './src/routes/Login';
 
 const App = () => {
+  return (
+    <Provider store={store}>
+      <ReduxApp />
+    </Provider>
+  );
+};
+
+const ReduxApp = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const authentication = useAppSelector(selectAuthentication);
+
   return (
     <ThemeProvider>
-    <SafeAreaProvider>
-      <SafeAreaView style={[backgroundStyle, styles.safeAreaView]}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{headerShown: false}}>
-            <Stack.Screen
-              name="Home"
-              component={Home}
-              options={{title: 'Mon écran Home'}}
-            />
-            <Stack.Screen name="Login" component={Login} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      <SafeAreaProvider>
+        <SafeAreaView style={[backgroundStyle, styles.safeAreaView]}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName={authentication.user ? 'Home' : 'Login'}
+              screenOptions={{headerShown: false}}>
+              <Stack.Screen
+                name="Home"
+                component={Home}
+                options={{title: 'Mon écran Home'}}
+              />
+              <Stack.Screen name="Login" component={Login} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 };
