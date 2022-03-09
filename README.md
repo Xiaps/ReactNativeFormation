@@ -5,6 +5,9 @@ jlg-consulting.com
 github du projet : https://github.com/jlg-formation/frncv1-mars-2022
 corrigé : https://github.com/jlg-formation/photobook
 
+Lien du support de formation :
+https://jlg-consulting.com/orsys/FRN/
+
 Appli web permettant de dev des petites app react native :
 https://expo.dev/
 
