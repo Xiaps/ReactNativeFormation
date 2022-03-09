@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Button, Text, View} from 'react-native';
+import {ActivityIndicator, Text, View} from 'react-native';
+import {Button} from 'react-native-elements';
 import {api} from '../api';
 import {ScreenProps} from '../navigation';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
@@ -10,7 +11,8 @@ import {
 
 const Login = ({navigation}: ScreenProps<'Login'>) => {
   const authentication = useAppSelector(selectAuthentication);
-
+  const dispatch = useAppDispatch();
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -19,16 +21,11 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
     }
   });
 
-  const dispatch = useAppDispatch();
-
-  const [errorMessage, setErrorMessage] = useState('');
-
   const onSubmit = async () => {
     try {
       setIsLoading(true);
       setErrorMessage('');
       const response = await api.connect('jlg@jlg.com', 'mdp');
-      setIsLoading(false);
       if (response.status != 200) {
         if (response.status === 401) {
           setErrorMessage('Bad credential');
@@ -38,6 +35,7 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
         return;
       }
       const user = await response.json();
+      setIsLoading(false);
       dispatch(connect(user));
     } catch (err) {
       setIsLoading(false);
@@ -48,8 +46,8 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
   return (
     <View>
       <Text>Login works</Text>
-      <Button title="Connect" onPress={onSubmit} />
-      {isLoading && <ActivityIndicator />}
+
+      <Button title="Connect" onPress={onSubmit} loading={isLoading} />
       {errorMessage !== '' && <Text>Error : {errorMessage}</Text>}
     </View>
   );
