@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Icon} from 'react-native-elements';
 
 const Wall = () => {
   return (
     <View style={styles.container}>
       <Text>Wall works</Text>
+      <Icon name="rowing" tvParallaxProperties={undefined} />
     </View>
   );
 };

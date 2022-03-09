@@ -8,21 +8,20 @@
  * @format
  */
 
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  useColorScheme,
+  useColorScheme
 } from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Stack} from './src/navigation';
+import { ThemeProvider } from 'react-native-elements';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Stack } from './src/navigation';
 import Home from './src/routes/Home';
-import Legal from './src/routes/Legal';
 import Login from './src/routes/Login';
-import Settings from './src/routes/Settings';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,6 +31,7 @@ const App = () => {
   };
 
   return (
+    <ThemeProvider>
     <SafeAreaProvider>
       <SafeAreaView style={[backgroundStyle, styles.safeAreaView]}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -49,6 +49,7 @@ const App = () => {
         </NavigationContainer>
       </SafeAreaView>
     </SafeAreaProvider>
+    </ThemeProvider>
   );
 };
 
