@@ -46,7 +46,6 @@ const Login = ({navigation}: ScreenProps<'Login'>) => {
   return (
     <View>
       <Text>Login works</Text>
-
       <Button title="Connect" onPress={onSubmit} loading={isLoading} />
       {errorMessage !== '' && <Text>Error : {errorMessage}</Text>}
     </View>
