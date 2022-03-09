@@ -6,7 +6,6 @@ const Wall = () => {
   return (
     <View style={styles.container}>
       <Text>Wall works</Text>
-      <Icon name="rowing" tvParallaxProperties={undefined} />
     </View>
   );
 };
